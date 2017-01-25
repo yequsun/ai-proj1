@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class Grid{
 	final private char[][] grid;
 	private ArrayList<String> hardCenters = new ArrayList<>();
-	final private String start;
-	final private String end;
+	// final private String start;
+	// final private String end;
 
 	public Grid() {
 		this.grid = new char[120][160];
@@ -19,9 +19,9 @@ public class Grid{
 		// setStartAndGoal();
 	}
 	
-	public Grid(String path) {
-		// write grid to file in format specified by project
-	}
+	// public Grid(String path) {
+	// 	// write grid to file in format specified by project
+	// }
 
 	private void setHardCells() {
 		int row = 0;
@@ -92,7 +92,7 @@ public class Grid{
 
 	public static void main(String args[]) throws FileNotFoundException {
 		Grid g = new Grid();
-		path = "/home/arnold/Documents/rutgers/CS440/grid.txt" // change to your filepath
-		g.outputFile();
+		String path = "/home/arnold/Documents/rutgers/CS440/grid.txt"; // change to your filepath
+		g.outputFile(path);
 	}
 }
