@@ -81,7 +81,8 @@ public class Grid {
 		}
 	}
 	
-	private void SetHighways() {
+	private bool SetHighways() {
+		//draws one single highway
 		int direction = 0; //initial direction and boudary
 		int x = 0; // origin x coordinate
 		int y = 0; // origin y coordinate
@@ -107,10 +108,33 @@ public class Grid {
 				y = rand.Next(1,119);
 		}
 
+		Node cur = gird[y,x];
+		int length = 20;
+		do{
+			cur = HighwaySegment(cur,direction);
+			if(cur==null){
+				EraseHighway();
+			}else{
+				length+=20;
+			}
+			//change direction
+		}while(!BoundaryCheck(cur));
+
+		if(length<100){
+			EraseHighway();
+			return false;
+		}else{
+			FinalizeHighway();
+			return true;
+		}
+
 	}
 	
-	private Node HighwaySegment(int x,int y,int d){
+	private Node HighwaySegment(Node cur,int d){
+		//draws a segment of highway with length of 20
 		Node cur;
+		int x = cur.GetX();
+		int y = cur.GetY();
 		for(int i=0;i<20;i++){
 			switch(d){
 				case 0:
@@ -125,8 +149,54 @@ public class Grid {
 				case 3:
 					cur = grid[y,x+i];
 			}
-			if(cur.GetCell == 'a' || cur.GetCell == 'b' || cur.GetCell == 'A' || cur.GetCell == 'B'){
-				//intersect, reset
+			if(cur.GetCell() == 'a' || cur.GetCell() == 'b' || cur.GetCell() == 'A' || cur.GetCell() == 'B'){
+				return null;
+			}
+			if(cur.GetCell() == '1'){
+				cur.SetCell('A');
+			}
+			if(cur.GetCell() == '2'){
+				cur.SetCell('B');
+			}
+		}
+	}
+
+	private bool BoundaryCheck(Node cur){
+		int x = cur.GetX();
+		int y = cur.GetY();
+		if(x == 0 || y == 0 || x == 160 || y == 120){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	private void EraseHighway(){
+		Node cur;
+		for(int i=0;i<120;i++){
+			for(int j=0;j<160;j++){
+				cur = grid[i,j];
+				if(cur.GetCell=='A'){
+					cur.SetCell('1');
+				}
+				if(cur.GetCell=='B'){
+					cur.SetCell('2');
+				}
+			}
+		}
+	}
+
+	private void FinalizeHighway(){
+		Node cur;
+		for(int i=0;i<120;i++){
+			for(int j=0;j<160;j++){
+				cur = grid[i,j];
+				if(cur.GetCell=='A'){
+					cur.SetCell('a');
+				}
+				if(cur.GetCell=='B'){
+					cur.SetCell('b');
+				}
 			}
 		}
 	}
